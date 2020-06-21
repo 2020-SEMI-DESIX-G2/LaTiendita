@@ -1,0 +1,27 @@
+{
+  "name": "latiendita",
+  "version": "1.0.0",
+  "description": "proyecto final de desarrollo de software 9 navarro,flores,gonzalez",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2020-SEMI-DESIX-G2/LaTiendita.git"
+  },
+  "author": "dflores",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2020-SEMI-DESIX-G2/LaTiendita/issues"
+  },
+  "homepage": "https://github.com/2020-SEMI-DESIX-G2/LaTiendita#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.19",
+    "nodemon": "^2.0.4"
+  }
+}
