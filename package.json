@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "mongo:start": "docker run --rm -p=27017:27017 --env-file=./.env --name=tienditadb -d centos/mongodb-32-centos7",
+    "mongo:stop": "docker stop topespii--lab5--mongo"
   },
   "repository": {
     "type": "git",

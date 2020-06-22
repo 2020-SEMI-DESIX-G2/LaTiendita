@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const connectDb = require('./dbConfig');
@@ -20,4 +20,10 @@ app.get('/', (req,res)=>{
 
 app.listen(PORT, ()=>{
     console.log(`server corriendo en el puerto ${PORT}`);
+});
+
+connectDb().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Ejecutando en el puerto ${PORT}`);
+    });
 });
