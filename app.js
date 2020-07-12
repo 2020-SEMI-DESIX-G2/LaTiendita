@@ -4,6 +4,8 @@ const app = express();
 const connectDb = require('./dbConfig');
 const Products = require ('./model/Products');
 
+path = require('path');
+
 //body parser
 var bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
@@ -11,19 +13,22 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.set("view engine", "pug");
+app.set("Views", path.resolve("./public"));
+
 //puerto
 const PORT = process.env.PORT || 3000;
 
- 
-//Controladores - API
- 
- /**
-  * Ruta por defecto
-  */
-app.get('/', (req,res)=>{
-    res.send("ruta por defecto");
+/**
+ * Controladores templates
+ */
+
+app.get('/', async(req,res)=>{
+  res.render("index");
 });
 
+ 
+//Controladores - API
 /**
  * Obtener todos los productos
  */

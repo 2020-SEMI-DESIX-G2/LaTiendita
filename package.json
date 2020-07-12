@@ -4,6 +4,7 @@
   "description": "proyecto final de desarrollo de software 9 navarro,flores,gonzalez",
   "main": "app.js",
   "scripts": {
+    "build": "postcss tailwind.css -o views/tailwind.css",
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
@@ -18,11 +19,14 @@
   },
   "homepage": "https://github.com/2020-SEMI-DESIX-G2/LaTiendita#readme",
   "dependencies": {
+    "autoprefixer": "^9.8.5",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.19",
     "nodemon": "^2.0.4",
-    "pug": "^3.0.0"
+    "postcss-cli": "^7.1.1",
+    "pug": "^3.0.0",
+    "tailwindcss": "^1.4.6"
   }
 }
