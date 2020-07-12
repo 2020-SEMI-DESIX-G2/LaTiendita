@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const connectDb = require('./dbConfig');
+const Products = require ('./model/Products');
 
 //body parser
 var bodyParser = require('body-parser');
@@ -13,15 +14,52 @@ app.use(bodyParser.json())
 //puerto
 const PORT = process.env.PORT || 3000;
 
-//Controllers
+ 
+//Controladores - API
+ 
+ /**
+  * Ruta por defecto
+  */
 app.get('/', (req,res)=>{
     res.send("ruta por defecto");
 });
 
-app.listen(PORT, ()=>{
-    console.log(`server corriendo en el puerto ${PORT}`);
+/**
+ * Obtener todos los productos
+ */
+app.get('/api/products/', async (req, res) => {
+    const products = await Products.find();
+    res.json({
+        products,
+        cantidad: products.length
+    });
 });
 
+//encontrar un producto por su ID
+app.get("/api/products/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      const product = await Products.findById(id).exec();
+      res.json(product);
+    } catch (error) {
+      console.log(`error obteniendo producto ${error}`);
+      res.json({});
+    }
+  });
+
+/**
+ * Añadir un producto
+ */
+app.post("/api/products/", async (req, res) => {
+    const { nombre, descripcion, codigo, precio } = req.body;
+    await Products.create({ nombre, descripcion, codigo, precio });
+    res.send("estudiante añadido correctamente");
+  });
+
+
+  /**
+   * Conexión a base de datos y levantar el server 
+   */
 connectDb().then(() => {
     app.listen(PORT, () => {
       console.log(`Ejecutando en el puerto ${PORT}`);
