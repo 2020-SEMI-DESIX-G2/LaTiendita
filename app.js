@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const connectDb = require("./dbConfig");
 const Products = require("./model/Products");
+const User = require('./model/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const verify = require('./verifyToken');
 
 //body parser
 var bodyParser = require("body-parser");
@@ -45,11 +49,52 @@ app.get("/api/products/:id", async (req, res) => {
 /**
  * Añadir un producto
  */
-app.post("/api/products/", async (req, res) => {
+app.post("/api/products/", verify , async (req, res) => {
     const { nombre, descripcion, codigo, precio } = req.body;
     await Products.create({ nombre, descripcion, codigo, precio });
     res.send("estudiante añadido correctamente");
   });
+
+/**
+ * Registrar un usuario
+ */
+app.post('/api/register', async(req, res)=>{
+
+  const emailExists = await User.findOne({email: req.body.email});
+  if ( emailExists ) return res.status(400).send('Email ya existente');
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  
+  const user = new User({
+    name: req.body.name,
+    lastName: req.body.lastName,
+    username: req.body.username,
+    password: hashedPassword,
+    email: req.body.email
+  });
+  try {
+    const savedUser = await user.save();
+    res.status(200).send({user: savedUser._id});
+  } catch (error) {
+    res.status(400).send(err);
+  }
+
+});
+
+/**
+ * login
+ */
+app.post('/api/login', async (req,res) =>{
+  const user = await User.findOne({email: req.body.email});
+  if ( !user ) return res.status(400).send('Email not found');
+  const validPass = await bcrypt.compare(req.body.password, user.password);
+  if(!validPass) return res.status(400).send('password esta mal');
+  //create a token
+  const token = jwt.sign({_id: user._id},process.env.TOKEN_SECRET);
+  res.header('auth-token', token).send(token);
+
+});
 
 /**
  * Conexión a base de datos y levantar el server
