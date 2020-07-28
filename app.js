@@ -15,6 +15,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+//allow CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 //puerto
 const PORT = process.env.PORT || 5000;
@@ -87,12 +94,14 @@ app.post('/api/register', async(req, res)=>{
  */
 app.post('/api/login', async (req,res) =>{
   const user = await User.findOne({email: req.body.email});
-  if ( !user ) return res.status(400).send('Email not found');
+  if ( !user ) return res.status(400).send('Email incorrecto');
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if(!validPass) return res.status(400).send('password esta mal');
   //create a token
   const token = jwt.sign({_id: user._id},process.env.TOKEN_SECRET);
-  res.header('auth-token', token).send(token);
+  res.header('auth-token', token).send(JSON.stringify({
+    tkn: token
+  }));
 
 });
 
