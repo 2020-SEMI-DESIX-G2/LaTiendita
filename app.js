@@ -59,7 +59,7 @@ app.get("/api/products/:id", async (req, res) => {
 app.post("/api/products/", verify , async (req, res) => {
     const { nombre, descripcion, codigo, precio } = req.body;
     await Products.create({ nombre, descripcion, codigo, precio });
-    res.send("estudiante añadido correctamente");
+    res.send("producto añadido correctamente");
   });
 
 /**
