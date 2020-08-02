@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const connectDb = require("./dbConfig");
 const Products = require("./model/Products");
+const Order = require("./model/Order");
 const User = require('./model/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -100,9 +101,21 @@ app.post('/api/login', async (req,res) =>{
   //create a token
   const token = jwt.sign({_id: user._id},process.env.TOKEN_SECRET);
   res.header('auth-token', token).send(JSON.stringify({
-    tkn: token
+    tkn: token,
+    usr: user
   }));
 
+});
+
+//crear un pedido
+app.post("/api/order", verify , async (req,res) => {
+  const {orderCreator, products } = req.body;
+  const created = await Order.create(req.body);
+  if (created){
+    res.status(200).send("orden agregada exitosamente");
+  }else {
+    res.status(401).send("error guardando orden");
+  }
 });
 
 /**

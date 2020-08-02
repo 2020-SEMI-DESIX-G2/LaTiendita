@@ -2,10 +2,19 @@ const mongoose = require("mongoose");
 const ProductSchema = require("./Products").schema;
 
 const schema = new mongoose.Schema({
-  orderName: {type: String},
-  orderCreator: {type:String},
+  orderCreator: { 
+    name: String,
+    lastName: String,
+    email: String
+   },
   creationDate: { type: Date, default: Date.now },
-  Products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+  products: [{
+    name: String,
+    description: String,
+    code: String,
+    price: Number,
+    image: String
+  }]
 });
 
 const Order = mongoose.model("order", schema);
