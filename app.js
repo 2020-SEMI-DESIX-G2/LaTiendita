@@ -58,8 +58,8 @@ app.get("/api/products/:id", async (req, res) => {
  * Añadir un producto
  */
 app.post("/api/products/", verify , async (req, res) => {
-    const { nombre, descripcion, codigo, precio } = req.body;
-    await Products.create({ nombre, descripcion, codigo, precio });
+    const { nombre, descripcion, codigo, precio, imagen } = req.body;
+    await Products.create({ nombre, descripcion, codigo, precio, imagen });
     res.send("producto añadido correctamente");
   });
 
