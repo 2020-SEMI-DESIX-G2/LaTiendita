@@ -27,7 +27,7 @@
     "mongoose": "^5.9.19",
     "nodemon": "^2.0.4",
     "postcss-cli": "^7.1.1",
-    "pug": "^3.0.0",
+    "pug": "^3.0.1",
     "tailwindcss": "^1.4.6"
   }
 }
